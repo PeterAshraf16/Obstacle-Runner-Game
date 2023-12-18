@@ -96,7 +96,7 @@ float star2AnimationTime = 0.0f;
 float star3AnimationTime = 0.0f;
 float star4AnimationTime = 0.0f;
 float fanRotationAngle = 0.0f;
-float fanRotationSpeed = 1.0f; // Adjust as needed
+float fanRotationSpeed = 2.0f; // Adjust as needed
 bool fanCollisionDetected = false;
 bool goalSoundPlayed = false;
 
@@ -255,7 +255,7 @@ void setupLights() {
 	GLfloat ambient[] = { 0.7f, 0.7f, 0.7, 1.0f };
 	GLfloat diffuse[] = { 0.6f, 0.6f, 0.6, 1.0f };
 	GLfloat specular[] = { 1.0f, 1.0f, 1.0, 1.0f };
-	GLfloat shininess[] = { 10};
+	GLfloat shininess[] = { 50 };
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, diffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, specular);
@@ -279,12 +279,6 @@ void setupLights() {
 
 	// Enable other lights if needed (GL_LIGHT1, GL_LIGHT2, etc.)
 }
-
-void updatelights() {
-
-}
-
-
 
 Camera camera;
 
@@ -909,7 +903,7 @@ void checkWinCondition() {
 			return; // Return early to avoid immediate transition
 		}
 	}
-	
+
 }
 
 bool lostSoundPlayed = false;
@@ -1008,13 +1002,6 @@ void renderEndScreen() {
 		takingInput = false;
 	}
 }
-float declight = 0.0;
-
-void updatelights(int value) {
-	declight=declight+0.01;
-	glutTimerFunc(100,updatelights,0);
-
-}
 
 void myDisplay(void)
 {
@@ -1037,7 +1024,7 @@ void myDisplay(void)
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			GLfloat lightIntensity[] = { 0.7-declight, 0.7-declight, 0.7-declight, 1.0f };
+			GLfloat lightIntensity[] = { 0.7, 0.7, 0.7, 1.0f };
 			GLfloat lightPosition[] = { 0.0f, 100.0f, 0.0f, 0.0f };
 			glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 			glLightfv(GL_LIGHT0, GL_AMBIENT, lightIntensity);
@@ -1096,35 +1083,35 @@ void myDisplay(void)
 				{
 
 					glPushMatrix();
-					glTranslatef(i + rockAnimation - 4, 1, 0);
-					glScalef(0.0033, 0.0033, 0.0015);
-					//glBindTexture(GL_TEXTURE_2D, tex_rock);
-					model_box.Draw();
+					glTranslatef(i + rockAnimation, 0, 0);
+					glScalef(0.35, 0.35, 0.35);
+					glBindTexture(GL_TEXTURE_2D, tex_rock);
+					model_rocks.Draw();
 					glPopMatrix();
 					glPushMatrix();
-					glTranslatef(i + rockAnimation - 4, 1, 20);
-					glScalef(0.0033, 0.0033, 0.0015);
-					//glBindTexture(GL_TEXTURE_2D, tex_rock);
-					model_box.Draw();
+					glTranslatef(i + rockAnimation, 0, 10);
+					glScalef(0.35, 0.35, 0.35);
+					glBindTexture(GL_TEXTURE_2D, tex_rock);
+					model_rocks.Draw();
 					glPopMatrix();
 					glPushMatrix();
-					glTranslatef(i + rockAnimation - 5, 1, -20);
-					glScalef(0.0035, 0.0033, 0.0015);
-					//glBindTexture(GL_TEXTURE_2D, tex_rock);
-					model_box.Draw();
+					glTranslatef(i + rockAnimation, 0, 20);
+					glScalef(0.35, 0.35, 0.35);
+					glBindTexture(GL_TEXTURE_2D, tex_rock);
+					model_rocks.Draw();
 					glPopMatrix();
-					//glPushMatrix();
-					//glTranslatef(i + rockAnimation - 4, 1, 0);
-					//glScalef(0.0033, 0.0033, 0.0033);
-					////glBindTexture(GL_TEXTURE_2D, tex_rock);
-					//model_box.Draw();
-					//glPopMatrix();
-					//glPushMatrix();
-					//glTranslatef(i + rockAnimation - 4, 1, 0);
-					//glScalef(0.0033, 0.0033, 0.0033);
-					////glBindTexture(GL_TEXTURE_2D, tex_rock);
-					//model_box.Draw();
-					//glPopMatrix();
+					glPushMatrix();
+					glTranslatef(i + rockAnimation, 0, -10);
+					glScalef(0.35, 0.35, 0.35);
+					glBindTexture(GL_TEXTURE_2D, tex_rock);
+					model_rocks.Draw();
+					glPopMatrix();
+					glPushMatrix();
+					glTranslatef(i + rockAnimation, 0, -20);
+					glScalef(0.35, 0.35, 0.35);
+					glBindTexture(GL_TEXTURE_2D, tex_rock);
+					model_rocks.Draw();
+					glPopMatrix();
 
 				}
 			}
@@ -1172,8 +1159,8 @@ void myDisplay(void)
 				}
 			}
 
-			
-			
+
+
 
 			if (currentLevel == 1) {
 				//sky box
@@ -1196,10 +1183,10 @@ void myDisplay(void)
 				glScalef(0.7, 0.7, 0.7);
 				drawPlayer();
 				glPopMatrix();
-				
-				
-				
-				
+
+
+
+
 			}
 			if (currentLevel == 2) {// Draw Player
 				//sky box
@@ -1220,7 +1207,7 @@ void myDisplay(void)
 				glScalef(0.7, 0.7, 0.7);
 				drawPlayer();
 				glPopMatrix();
-				
+
 
 			}
 
@@ -1233,7 +1220,7 @@ void myDisplay(void)
 				model_Target.Draw();
 				glPopMatrix();
 			}
-			
+
 			// Draw coin Model 1
 			if (currentLevel == 1) {
 				if (coin1 == 1)
@@ -1325,7 +1312,7 @@ void myDisplay(void)
 					glPopMatrix();
 				}
 			}
-		
+
 			if (currentLevel == 2) {
 				glPushMatrix();
 				//glColor3f(1.0f, 0.0f, 0.0f);
@@ -1350,7 +1337,7 @@ void myDisplay(void)
 
 			char scoreText[20];
 			sprintf(scoreText, "Score: %d", score);
-			glRasterPos2i(1280-120, 720 - 30);
+			glRasterPos2i(1280 - 120, 720 - 30);
 			for (char* c = scoreText; *c != '\0'; c++) {
 				glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);  // Increase text size to 24
 			}
@@ -1363,7 +1350,7 @@ void myDisplay(void)
 			if (currentLevel == 1) {
 				char livesText[50];
 				sprintf(livesText, "You are playing level 1, Enjoy :)");
-				glRasterPos2i(1280-800,720-30);
+				glRasterPos2i(1280 - 800, 720 - 30);
 				for (char* c = livesText; *c != '\0'; c++) {
 					glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, *c);  // Increase text size to 24
 				}
@@ -1441,7 +1428,7 @@ int checkCollisionGoal() {
 				return 0; // Return 0 to avoid immediate transition
 			}
 		}*/
-		
+
 	}
 	return 0;
 }
@@ -1489,7 +1476,7 @@ void checkCollisionStar() {
 		star2Collected = 1;
 		star2AnimationTime = 2;  // Start the animation
 		score += 10;
-		star22=1;
+		star22 = 1;
 		PlaySound(TEXT("collectable"), NULL, SND_ASYNC);
 		for (int i = 0; i < 5; i++) {
 			glutTimerFunc(500 * i, toggleFlash, 0);
@@ -1501,7 +1488,7 @@ void checkCollisionStar() {
 		star3Collected = 1;
 		star3AnimationTime = 2;  // Start the animation
 		score += 10;
-		star33=1;
+		star33 = 1;
 		PlaySound(TEXT("collectable"), NULL, SND_ASYNC);
 		for (int i = 0; i < 5; i++) {
 			glutTimerFunc(500 * i, toggleFlash, 0);
@@ -1555,8 +1542,7 @@ void myKeyboard(unsigned char button, int x, int y)
 					camera.look();
 				}
 
-			} 
- // Check for star collision in Level 2 after moving
+			}  // Check for star collision in Level 2 after moving
 			if (currentLevel == 2) {
 				checkCollisionStar();
 			}
@@ -1586,9 +1572,6 @@ void myKeyboard(unsigned char button, int x, int y)
 					angleY = 0;
 					camera.look();
 				}
-			}
-			else {
-				PlaySound(TEXT("obstacleHit"), NULL, SND_ASYNC);
 			}
 			if (currentLevel == 2) {
 				checkCollisionStar();
@@ -1692,7 +1675,7 @@ void myKeyboard(unsigned char button, int x, int y)
 			view = '3';
 			switch (direction)
 			{
-			
+
 			case 'w':
 				camera.eye.x = playerX;
 				camera.eye.y = 3;
@@ -1789,7 +1772,7 @@ void myKeyboard(unsigned char button, int x, int y)
 				coin44 = 1;
 			}
 		}
-		
+
 		glutPostRedisplay();
 	}
 }
@@ -2132,7 +2115,6 @@ void main(int argc, char** argv)
 	glutIdleFunc(idle);
 
 	glutTimerFunc(1000, Time, 0);
-	glutTimerFunc(500, updatelights, 1);
 
 	myInit();
 
